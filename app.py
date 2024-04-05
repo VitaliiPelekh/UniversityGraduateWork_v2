@@ -303,10 +303,10 @@ def collect_portfolio_data_for_export(initial_investment, financial_cushion_perc
         asset['invested_percentage'] = investment_percentages[i]
         asset['risk_label'] = risk_labels_translation[asset_risks[i]]
 
-    heatmap_chart_url = base64_to_image(heatmap_chart_url, "/static/Graphs/heatmap_chart.png")
-    volatility_chart_url = base64_to_image(volatility_chart_url, "/static/Graphs/volatility_chart.png")
-    daily_return_charts_url = base64_to_image(daily_return_charts_url, "/static/Graphs/daily_return_charts.png")
-    pie_chart_url = base64_to_image(pie_chart_url, "/static/Graphs/pie_chart.png")
+    heatmap_chart_url = base64_to_image(heatmap_chart_url, "heatmap_chart.png")
+    volatility_chart_url = base64_to_image(volatility_chart_url, "volatility_chart.png")
+    daily_return_charts_url = base64_to_image(daily_return_charts_url, "daily_return_charts.png")
+    pie_chart_url = base64_to_image(pie_chart_url, "pie_chart.png")
 
     return {
         "initial_investment": initial_investment,
@@ -329,7 +329,13 @@ def collect_portfolio_data_for_export(initial_investment, financial_cushion_perc
 
 def save_data_to_temp_file(data):
     export_id = str(uuid.uuid4())
-    temp_file_path = f"temp_data/{export_id}.json"
+    temp_dir = os.path.join(app.root_path, 'temp_data')
+
+    if not os.path.exists(temp_dir):
+        os.makedirs(temp_dir)
+
+    temp_file_path = os.path.join(temp_dir, f"{export_id}.json")
+
     with open(temp_file_path, 'w') as temp_file:
         json.dump(data, temp_file)
     return export_id
@@ -337,7 +343,7 @@ def save_data_to_temp_file(data):
 
 @app.route('/download_portfolio/pdf/<export_id>')
 def download_pdf(export_id):
-    temp_file_path = f"temp_data/{export_id}.json"
+    temp_file_path = os.path.join(app.root_path, 'temp_data', f"{export_id}.json")
     if os.path.exists(temp_file_path):
         with open(temp_file_path, 'r') as temp_file:
             data = json.load(temp_file)
@@ -349,7 +355,7 @@ def download_pdf(export_id):
 
 @app.route('/download_portfolio/excel/<export_id>')
 def download_excel(export_id):
-    temp_file_path = f"temp_data/{export_id}.json"
+    temp_file_path = os.path.join(app.root_path, 'temp_data', f"{export_id}.json")
     if os.path.exists(temp_file_path):
         with open(temp_file_path, 'r') as temp_file:
             data = json.load(temp_file)
@@ -361,7 +367,7 @@ def download_excel(export_id):
 
 def base64_to_image(base64_string, output_filename):
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(output_filename)[1])
-    base64_string += "=" * ((4 - len(base64_string) % 4) % 4)  # Correct padding if necessary
+    base64_string += "=" * ((4 - len(base64_string) % 4) % 4)
 
     try:
         decoded_image = base64.b64decode(base64_string)

@@ -58,9 +58,12 @@ font_path_bold = os.path.join(app.root_path, 'static', 'Fonts', 'DejaVuSans-Bold
 pdfmetrics.registerFont(TTFont('DejaVuSans', font_path))
 pdfmetrics.registerFont(TTFont('DejaVuSans-Bold', font_path_bold))
 
-temp_dir = 'temp_data'
+temp_dir = os.path.join(app.root_path, 'temp_data')
 lifetime = 3600  # File lifetime in seconds (eg 1 hour)
 current_time = time.time()
+
+if not os.path.exists(temp_dir):
+    os.makedirs(temp_dir)
 
 for filename in os.listdir(temp_dir):
     file_path = os.path.join(temp_dir, filename)

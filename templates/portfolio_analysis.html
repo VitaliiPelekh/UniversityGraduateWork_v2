@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html  lang="{{ get_locale() }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Portfolio Analysis') }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .results-section {
+            background: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .analysis-result {
+            background: #e7f4fd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        h1, h2 {
+            color: #0056b3;
+        }
+
+        .results-section, .analysis-result {
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .results-section > p, .analysis-result > p {
+            color: #333;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .results-section > h2, .analysis-result > h2 {
+            color: #0056b3;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        ul > li {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            text-align: left;
+        }
+
+        .return-home {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: large;
+        }
+
+        .return-home:hover,
+        .return-home:focus {
+            background-color: #0056b3;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .language-switcher-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .language-switcher {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .language-switcher:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            padding: 0 30px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        #download-pdf { background-color: #ff4d4d; } /* Червоний колір для PDF */
+        #download-excel { background-color: #4CAF50; } /* Зелений колір для Excel */
+
+        #download-pdf:hover,
+        #download-pdf:focus {
+            background-color: #c03a3a;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        #download-excel:hover,
+        #download-excel:focus {
+            background-color: #327632;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .download-button img {
+            margin-right: 10px;
+            height: 30px;
+            width: 30px;
+            margin-top: 20px;
+        }
+
+        .download-button span {
+        vertical-align: middle;
+    }
+
+        /* Notification style */
+        .notification {
+            display: block;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+            transform: translateX(-50%);
+            animation: fadein 0.5s, fadeout 0.5s 3.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Language Switcher -->
+        <div class="language-switcher-container">
+            <a href="{{ url_for('set_language', language='en') }}" class="language-switcher">{{ _('English') }}</a> |
+            <a href="{{ url_for('set_language', language='uk') }}" class="language-switcher">{{ _('Ukrainian') }}</a>
+        </div>
+        <h1>{{ _('Results of Portfolio Analysis') }}</h1>
+        <div class="results-section">
+            <p>{{ _('Total funds:') }} {{ initial_investment }}</p>
+            <p>{{ _('Financial safety cushion:') }} {{ financial_cushion_percentage }}</p>
+            <p>{{ _('Funds in investments:') }} {{ invested_amount }}</p>
+            <p>{{ _('Available funds:') }} {{ available_amount }}</p>
+            <p>{{ _('Expected portfolio risk:') }} {{ risk_preference }}</p>
+            <p>{{ _('The given investment period:') }} {{ investment_period }}</p>
+            <p>{{ _('Neural network assessment of portfolio risk:') }} {{ risk_nn_prediction }}</p>
+            <p>{{ _('Recommendation:') }} {{ risk_comparison }}</p>
+            <img src="data:image/png;base64,{{ plot_url }}" alt="Pie Chart">
+            <img src="data:image/png;base64,{{ heatmap_url }}" alt="Heatmap">
+            <img src="data:image/png;base64,{{ volatility_chart_url }}" alt="Volatility Chart">
+            <img src="data:image/png;base64,{{ daily_return_charts_url }}" alt="Daily Return Charts">
+            <div style="margin-bottom: 20px;">
+                <p>{{ _('Download the results of the analysis of your investment portfolio in the selected format:') }}</p>
+                <a href="/download_portfolio/pdf/{{ export_id }}" class="download-button" id="download-pdf">
+                    <img src="/static/Icons/pdf.png" alt="PDF" />
+                    <span>{{ _('Download as PDF') }}</span>
+                </a>
+                <a href="/download_portfolio/excel/{{ export_id }}" class="download-button" id="download-excel">
+                    <img src="/static/Icons/excel.png" alt="Excel" />
+                    <span>{{ _('Download as Excel') }}</span>
+                </a>
+            </div>
+            <button onclick="location.href='/'" class="return-home">{{ _('Return to Home Page') }}</button>
+        </div>
+        <div class="results-section">
+            <h2>{{ _('Asset replacement recommendations:') }}</h2>
+            {% for asset, details in replacement_recommendations.items() %}
+                <div>
+                    <h4>{{ _('Replace asset:') }} {{ asset }}</h4>
+                    <p>{{ _('Current investment:') }} {{ details.current_value }}</p>
+                    <p>{{ _('Possible replacements:') }}</p>
+                    <ul>
+                        {% for replacement in details.possible_replacements %}
+                            <li>{{ replacement }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

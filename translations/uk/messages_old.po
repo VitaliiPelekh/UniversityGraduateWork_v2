@@ -1,0 +1,404 @@
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-12-27 20:08+0200\n"
+"PO-Revision-Date: 2023-12-27 20:08+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.14.0\n"
+
+#: app.py:420
+msgid "short-term"
+msgstr "короткий термін"
+
+#: app.py:421
+msgid "middle-term"
+msgstr "середній термін"
+
+#: app.py:422
+msgid "long-term"
+msgstr "довгий термін"
+
+#: app.py:592
+msgid "low"
+msgstr "низький"
+
+#: app.py:593
+msgid "medium"
+msgstr "середній"
+
+#: app.py:594
+msgid "high"
+msgstr "високий"
+
+#: app.py:627
+msgid "Portfolio risk corresponds to desired risk "
+msgstr "Ризик портфеля відповідає бажаному ризику "
+
+#: app.py:629
+msgid "Portfolio risk is lower than desired ("
+msgstr "Ризик портфеля нижчий, ніж заданий ("
+
+#: app.py:629
+msgid "). Perhaps it is worth increasing the riskiness of the portfolio."
+msgstr "). Можливо, варто збільшити ризикованість портфеля."
+
+#: app.py:631
+msgid "Portfolio risk is higher than desired ("
+msgstr "Ризик портфеля вищий, ніж заданий ("
+
+#: app.py:631
+msgid "). We recommend reviewing the composition of the portfolio to reduce risk."
+msgstr "). Рекомендуємо переглянути склад портфеля для зниження ризику."
+
+#: app.py:638
+msgid "Risk:"
+msgstr "Ризик:"
+
+#: app.py:751
+msgid "Neural Network Similarity Heatmap"
+msgstr "Теплова карта кореляції результатів сіамської нейромережі"
+
+#: app.py:756
+msgid "Pearson Correlation Heatmap"
+msgstr "Теплова карта кореляції Пірсона"
+
+#: templates/create_portfolio.html:5 templates/create_portfolio.html:186
+msgid "Create Your Investment Portfolio"
+msgstr "Створіть ваш інвестиційний портфель"
+
+#: templates/create_portfolio.html:183 templates/portfolio_analysis.html:149
+msgid "English"
+msgstr "Англійська"
+
+#: templates/create_portfolio.html:184 templates/portfolio_analysis.html:150
+msgid "Ukrainian"
+msgstr "Українська"
+
+#: templates/create_portfolio.html:190
+msgid "Initial Investment:"
+msgstr "Початкова сума для інвестицій:"
+
+#: templates/create_portfolio.html:194
+msgid "Financial Cushion Percentage:"
+msgstr "Фінансова подушка у процентах:"
+
+#: templates/create_portfolio.html:198
+msgid "Risk Preference:"
+msgstr "Рівень ризику:"
+
+#: templates/create_portfolio.html:200
+msgid "Low"
+msgstr "Низький"
+
+#: templates/create_portfolio.html:201
+msgid "Medium"
+msgstr "Середній"
+
+#: templates/create_portfolio.html:202
+msgid "High"
+msgstr "Високий"
+
+#: templates/create_portfolio.html:206
+msgid "Investment Period:"
+msgstr "Період інвестування:"
+
+#: templates/create_portfolio.html:208
+msgid "Short-Term"
+msgstr "Короткий термін"
+
+#: templates/create_portfolio.html:209
+msgid "Middle-Term"
+msgstr "Середній термін"
+
+#: templates/create_portfolio.html:210
+msgid "Long-Term"
+msgstr "Довгий термін"
+
+#: templates/create_portfolio.html:214
+msgid "Financial Cushion: "
+msgstr "Фінансова подушка: "
+
+#: templates/create_portfolio.html:215
+msgid "Available Funds: "
+msgstr "Вільні кошти: "
+
+#: templates/create_portfolio.html:216
+msgid "Total Investment: "
+msgstr "Всього інвестовано: "
+
+#: templates/create_portfolio.html:217
+msgid "Select Assets and Allocate Investments:"
+msgstr "Виберіть активи та розподіліть інвестиції в портфелі:"
+
+#: templates/create_portfolio.html:221 templates/create_portfolio.html:228
+#: templates/create_portfolio.html:235 templates/create_portfolio.html:242
+#: templates/create_portfolio.html:249 templates/create_portfolio.html:510
+#: templates/create_portfolio.html:726
+msgid "Ticker"
+msgstr "Тікер"
+
+#: templates/create_portfolio.html:222 templates/create_portfolio.html:229
+#: templates/create_portfolio.html:236 templates/create_portfolio.html:243
+#: templates/create_portfolio.html:250 templates/create_portfolio.html:727
+msgid "Investment Amount"
+msgstr "Сума інвестиції в актив"
+
+#: templates/create_portfolio.html:224 templates/create_portfolio.html:231
+#: templates/create_portfolio.html:238 templates/create_portfolio.html:245
+#: templates/create_portfolio.html:252 templates/create_portfolio.html:729
+msgid "Remove"
+msgstr "Видалити"
+
+#: templates/create_portfolio.html:257
+msgid "Add Asset"
+msgstr "Додати поле для активу"
+
+#: templates/create_portfolio.html:258
+msgid "Analyze Portfolio"
+msgstr "Аналізувати портфель"
+
+#: templates/create_portfolio.html:262 templates/create_portfolio.html:555
+msgid "1-Day Trend"
+msgstr "1-день тренд"
+
+#: templates/create_portfolio.html:263 templates/create_portfolio.html:556
+msgid "3-Days Trend"
+msgstr "3-дня тренд"
+
+#: templates/create_portfolio.html:264 templates/create_portfolio.html:557
+msgid "1-Week Trend"
+msgstr "1-тиждень тренд"
+
+#: templates/create_portfolio.html:268
+msgid "Low Risk Assets"
+msgstr "Активи низького ризику"
+
+#: templates/create_portfolio.html:271 templates/create_portfolio.html:303
+msgid "Defensive Assets"
+msgstr "Захисні активи"
+
+#: templates/create_portfolio.html:274
+msgid "Bonds"
+msgstr "Держоблігації"
+
+#: templates/create_portfolio.html:278
+msgid "Gold and precious metals"
+msgstr "Золото та дорогоцінні метали"
+
+#: templates/create_portfolio.html:282
+msgid "Stable sector etfs"
+msgstr "Стабільний сектор ETF"
+
+#: templates/create_portfolio.html:289 templates/create_portfolio.html:333
+msgid "Liquid Assets"
+msgstr "Ліквідні активи"
+
+#: templates/create_portfolio.html:292
+msgid "Money market ETFs"
+msgstr "ETF грошового ринку"
+
+#: templates/create_portfolio.html:300
+msgid "Medium Risk Assets"
+msgstr "Активи середнього ризику"
+
+#: templates/create_portfolio.html:306
+msgid "Bank sector"
+msgstr "Банківський сектор"
+
+#: templates/create_portfolio.html:310
+msgid "Defense sector"
+msgstr "Оборонний сектор"
+
+#: templates/create_portfolio.html:314
+msgid "Food sector"
+msgstr "Харчовий сектор"
+
+#: templates/create_portfolio.html:318
+msgid "Healthcare sector"
+msgstr "Медичний сектор"
+
+#: templates/create_portfolio.html:322
+msgid "Oil and gas sector"
+msgstr "Нафтогазовий сектор"
+
+#: templates/create_portfolio.html:326
+msgid "Mining sector"
+msgstr "Видобувний сектор"
+
+#: templates/create_portfolio.html:336
+msgid "Large stable stocks"
+msgstr "Стабільні акції компаній"
+
+#: templates/create_portfolio.html:343 templates/create_portfolio.html:383
+msgid "Venture Assets"
+msgstr "Венчурні активи"
+
+#: templates/create_portfolio.html:346
+msgid "Innovation focused etfs"
+msgstr "ETF стартапів"
+
+#: templates/create_portfolio.html:354
+msgid "High Risk Assets"
+msgstr "Активи високого ризику"
+
+#: templates/create_portfolio.html:357
+msgid "Speculative Assets"
+msgstr "Спекулятивні активи"
+
+#: templates/create_portfolio.html:360
+msgid "Stocks"
+msgstr "Акції"
+
+#: templates/create_portfolio.html:364
+msgid "Cryptocurrencies"
+msgstr "Криптовалюти"
+
+#: templates/create_portfolio.html:368
+msgid "Real estate etfs"
+msgstr "ETF нерухомості"
+
+#: templates/create_portfolio.html:372
+msgid "Developing markets"
+msgstr "Інвестування в розвинені ринки"
+
+#: templates/create_portfolio.html:376
+msgid "Sport wear"
+msgstr "Спортивні компанії"
+
+#: templates/create_portfolio.html:386
+msgid "Tech stocks"
+msgstr "Акції технічних компаній"
+
+#: templates/create_portfolio.html:390
+msgid "Biotechnologies"
+msgstr "Біотехнології"
+
+#: templates/create_portfolio.html:394
+msgid "Green energy"
+msgstr "Зелена енергетика"
+
+#: templates/create_portfolio.html:510
+msgid "copied to clipboard!"
+msgstr "скопійовано до буфера обміну!"
+
+#: templates/create_portfolio.html:520
+msgid "Failed to copy ticker:"
+msgstr "Помилка при копіюванні тікера до буфера обміну:"
+
+#: templates/create_portfolio.html:558
+msgid "1-Month Trend"
+msgstr "1-місячний тренд"
+
+#: templates/create_portfolio.html:559
+msgid "3-Months Trend"
+msgstr "3-місячний тренд"
+
+#: templates/create_portfolio.html:560
+msgid "6-Months Trend"
+msgstr "6-місячний тренд"
+
+#: templates/create_portfolio.html:561
+msgid "1-Year Trend"
+msgstr "1-річний тренд"
+
+#: templates/create_portfolio.html:562
+msgid "2-Years Trend"
+msgstr "2-річний тренд"
+
+#: templates/create_portfolio.html:563
+msgid "3-Years Trend"
+msgstr "3-річний тренд"
+
+#: templates/create_portfolio.html:650
+msgid "Industry:"
+msgstr "Індустрія:"
+
+#: templates/create_portfolio.html:654
+msgid "Description:"
+msgstr "Опис:"
+
+#: templates/create_portfolio.html:740
+msgid "You have reached the maximum number of assets (10)."
+msgstr "Ви досягли максимальної кількості активів (10)."
+
+#: templates/create_portfolio.html:753
+msgid "You must have at least 5 assets."
+msgstr "Ви повинні мати принаймні 5 активів."
+
+#: templates/create_portfolio.html:795
+msgid "You have exceeded the available funds!"
+msgstr "Ви перевищили доступні кошти!"
+
+#: templates/portfolio_analysis.html:5
+msgid "Portfolio Analysis"
+msgstr "Аналіз портфеля"
+
+#: templates/portfolio_analysis.html:152
+msgid "Results of Portfolio Analysis"
+msgstr "Результати аналізу портфеля"
+
+#: templates/portfolio_analysis.html:154
+msgid "Total funds:"
+msgstr "Початкова сума для інвестицій:"
+
+#: templates/portfolio_analysis.html:155
+msgid "Financial safety cushion:"
+msgstr "Фінансова подушка:"
+
+#: templates/portfolio_analysis.html:156
+msgid "Funds in investments:"
+msgstr "Всього інвестовано:"
+
+#: templates/portfolio_analysis.html:157
+msgid "Available funds:"
+msgstr "Вільні кошти:"
+
+#: templates/portfolio_analysis.html:158
+msgid "Expected portfolio risk:"
+msgstr "Очікуваний ризик портфеля:"
+
+#: templates/portfolio_analysis.html:159
+msgid "The given investment period:"
+msgstr "Заданий період інвестування:"
+
+#: templates/portfolio_analysis.html:160
+msgid "Neural network assessment of portfolio risk:"
+msgstr "Оцінка нейромережі ризику портфеля:"
+
+#: templates/portfolio_analysis.html:161
+msgid "Recommendation:"
+msgstr "Рекомендації:"
+
+#: templates/portfolio_analysis.html:164
+msgid "Return to Home Page"
+msgstr "Повернутися на головну сторінку"
+
+#: templates/portfolio_analysis.html:167
+msgid "Asset replacement recommendations:"
+msgstr "Рекомендації щодо заміни активів:"
+
+#: templates/portfolio_analysis.html:170
+msgid "Replace asset:"
+msgstr "Замінити актив:"
+
+#: templates/portfolio_analysis.html:171
+msgid "Current investment:"
+msgstr "Поточна інвестиція:"
+
+#: templates/portfolio_analysis.html:172
+msgid "Possible replacements:"
+msgstr "Можливі заміни:"
+

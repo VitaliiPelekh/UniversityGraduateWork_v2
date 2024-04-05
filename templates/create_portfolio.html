@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="{{ get_locale() }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Create Your Investment Portfolio') }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        .asset-input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .asset-input-group > * {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .asset-input-group > *:last-child {
+            margin-right: 0;
+        }
+        .btn-group {
+            flex-wrap: nowrap;
+            margin-bottom: 2rem;
+        }
+        .risk-section {
+            margin-bottom: 30px;
+        }
+        .risk-level {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            padding: 20px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+        }
+
+        @media (min-width: 768px) {
+            .col-md-3 {
+                flex: 0 0 auto;
+                width: 25%;
+            }
+        }
+        .section-title {
+            background-color: rgba(0, 123, 255, 0.82);
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 24px;
+        }
+        .type-title {
+            font-size: 20px;
+            color: black;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ddd;
+            background-color: #d9d9db;
+            border-radius: 4px;
+        }
+        .category-title {
+            font-size: 18px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .section-title,
+        .category-title,
+        .card-title {
+          text-align: center;
+        }
+        .asset-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .asset-card:hover {
+            transform: scale(1.05);
+        }
+        .card-body {
+            padding: 10px;
+            text-align: center;
+        }
+        .card-title {
+            margin-bottom: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .card-text {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .asset-container {
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .asset-type h3 {
+            font-size: 22px;
+            color: black;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid #eee;
+        }
+        .padding-section {
+            padding: 15px;
+        }
+        .margin-section {
+            margin-bottom: 25px;
+        }
+        .col-md-3 {
+            /* display: flex; */
+            justify-content: center;
+        }
+        .asset-type h3,
+        .type-title {
+          text-align: center;
+        }
+        .form-group > label {
+            display: block;
+            text-align: left;
+            margin-bottom: 0.5rem;
+        }
+        .language-switcher-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .language-switcher {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .language-switcher:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        #load-chart {
+            margin-left: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #load-chart:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .chart-section {
+            gap: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+        }
+
+        .chart-section h3 {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #chart-container {
+            width: 100%;
+            min-height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #asset-search-input {
+            width: 100%;
+        }
+
+        #asset-search-input,
+        #chart-period {
+            flex: 1;
+        }
+
+        #load-chart {
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .ticker-error-message {
+            color: red;
+            font-size: 0.8rem;
+            margin-top: 2px;
+            margin-left: -9%;
+            position: absolute;
+            white-space: nowrap;
+        }
+
+
+        /* Notification CSS */
+        .notification {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+            transform: translateX(-50%);
+        }
+        .notification.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 3.5s;
+            animation: fadein 0.5s, fadeout 0.5s 3.5s;
+        }
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="language-switcher-container">
+        <a href="{{ url_for('set_language', language='en') }}" class="language-switcher">{{ _('English') }}</a> |
+        <a href="{{ url_for('set_language', language='uk') }}" class="language-switcher">{{ _('Ukrainian') }}</a>
+    </div>
+    <h1 class="text-center mb-4">{{ _('Create Your Investment Portfolio') }}</h1>
+    <form action="/create_portfolio" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="initial_investment">{{ _('Initial Investment:') }}</label>
+                <input type="number" class="form-control required-input" id="initial_investment" name="initial_investment" min="0" step="0.01" required>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="financial_cushion_percentage">{{ _('Financial Cushion Percentage:') }}</label>
+                <input type="number" class="form-control required-input" id="financial_cushion_percentage" name="financial_cushion_percentage" min="0" max="90" required>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="risk_preference">{{ _('Risk Preference:') }}</label>
+                <select class="form-control" id="risk_preference" name="risk_preference" required>
+                    <option value="low">{{ _('Low') }}</option>
+                    <option value="medium">{{ _('Medium') }}</option>
+                    <option value="high">{{ _('High') }}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="investment_period">{{ _('Investment Period:') }}</label>
+                <select class="form-control" id="investment_period" name="investment_period" onchange="updateTrendButtons()" required>
+                    <option value="short-term">{{ _('Short-Term') }}</option>
+                    <option value="middle-term">{{ _('Middle-Term') }}</option>
+                    <option value="long-term">{{ _('Long-Term') }}</option>
+                </select>
+            </div>
+        </div>
+        <p>{{ _('Financial Cushion: ') }}<span id="financial_cushion_display">0</span></p>
+        <p>{{ _('Available Funds: ') }}<span id="available_funds_display">0</span></p>
+        <p>{{ _('Total Investment: ') }}<span id="total_investment_display">0</span></p>
+        <h3 style="margin-top: 30px">{{ _('Select Assets and Allocate Investments:') }}</h3>
+        <div id="asset-inputs">
+            <!-- Dynamic asset fields -->
+            <div class="asset-input-group input-group">
+                <input type="text" class="form-control ticker-input ticker-fields-input required-input" placeholder={{ _('Ticker') }} name="asset_tickers[]" required>
+                <div class="ticker-error-message"></div>
+                <input type="number" class="form-control investment-amount-input required-input" placeholder={{ _('Investment Amount') }} name="investment_amounts[]" min="0" max="100" step="0.01" required>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary remove-asset" type="button">{{ _('Remove') }}</button>
+                </div>
+            </div>
+            <div class="asset-input-group input-group">
+                <input type="text" class="form-control ticker-input ticker-fields-input required-input" placeholder={{ _('Ticker') }} name="asset_tickers[]" required>
+                <div class="ticker-error-message"></div>
+                <input type="number" class="form-control investment-amount-input required-input" placeholder={{ _('Investment Amount') }} name="investment_amounts[]" step="0.01" required>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary remove-asset" type="button">{{ _('Remove') }}</button>
+                </div>
+            </div>
+            <div class="asset-input-group input-group">
+                <input type="text" class="form-control ticker-input ticker-fields-input required-input" placeholder={{ _('Ticker') }} name="asset_tickers[]" required>
+                <div class="ticker-error-message"></div>
+                <input type="number" class="form-control investment-amount-input required-input" placeholder={{ _('Investment Amount') }} name="investment_amounts[]" step="0.01" required>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary remove-asset" type="button">{{ _('Remove') }}</button>
+                </div>
+            </div>
+            <div class="asset-input-group input-group">
+                <input type="text" class="form-control ticker-input ticker-fields-input required-input" placeholder={{ _('Ticker') }} name="asset_tickers[]" required>
+                <div class="ticker-error-message"></div>
+                <input type="number" class="form-control investment-amount-input required-input" placeholder={{ _('Investment Amount') }} name="investment_amounts[]" step="0.01" required>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary remove-asset" type="button">{{ _('Remove') }}</button>
+                </div>
+            </div>
+            <div class="asset-input-group input-group">
+                <input type="text" class="form-control ticker-input ticker-fields-input required-input" placeholder={{ _('Ticker') }} name="asset_tickers[]" required>
+                <div class="ticker-error-message"></div>
+                <input type="number" class="form-control investment-amount-input required-input" placeholder={{ _('Investment Amount') }} name="investment_amounts[]" step="0.01" required>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary remove-asset" type="button">{{ _('Remove') }}</button>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button type="button" id="add-asset" class="btn btn-primary">{{ _('Add Asset') }}</button>
+            <button type="submit" id="analyze-portfolio-btn" class="btn btn-success">{{ _('Analyze Portfolio') }}</button>
+        </div>
+    </form>
+    <div class="chart-section">
+        <h3>{{ _('Asset Chart') }}</h3>
+        <div class="d-flex flex-row align-items-center">
+            <input type="text" id="asset-search-input" class="form-control ticker-input" onchange="checkTickerExists(this)" placeholder="{{ _('Enter asset ticker...') }}">
+            <div class="ticker-error-message"></div>
+            <select id="chart-period" class="form-control mx-2">
+                <option value="30">{{ _('1-Month') }}</option>
+                <option value="90">{{ _('3-Months') }}</option>
+                <option value="180">{{ _('6-Months') }}</option>
+                <option value="365">{{ _('1-Year') }}</option>
+                <option value="730">{{ _('2-Years') }}</option>
+                <option value="1095">{{ _('3-Years') }}</option>
+            </select>
+            <button id="load-chart" class="btn btn-primary">{{ _('Load Chart') }}</button>
+        </div>
+        <div id="chart-container" class="mt-3"></div>
+    </div>
+    <div id="trend-buttons" style="text-align: right">
+        <button type="button" class="btn btn-info" onclick="analyzeTrend(1)">{{ _('1-Day Trend') }}</button>
+        <button type="button" class="btn btn-info" onclick="analyzeTrend(3)">{{ _('3-Days Trend') }}</button>
+        <button type="button" class="btn btn-info" onclick="analyzeTrend(7)">{{ _('1-Week Trend') }}</button>
+    </div>
+    <!-- Container for low risk assets -->
+    <div id="assets-low_risk" class="asset-container risk-level">
+        <h2 class="section-title">{{ _('Low Risk Assets') }}</h2>
+        <!-- Container for Defensive Assets within Low Risk -->
+        <div class="asset-type">
+            <h3 class="type-title">{{ _('Defensive Assets') }}</h3>
+            <div class="type-content">
+                <div class="category">
+                    <h4 class="category-title">{{ _('Bonds') }}</h4>
+                    <div class="row" id="low_risk-defensive-bonds"></div>
+                </div>
+                <div class="category">
+                    <h4 class="category-title">{{ _('Gold and precious metals') }}</h4>
+                    <div class="row" id="low_risk-defensive-gold_and_precious_metals"></div>
+                </div>
+                <div class="category">
+                    <h4 class="category-title">{{ _('Stable sector etfs') }}</h4>
+                    <div class="row" id="low_risk-defensive-stable_sector_etfs"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Container for Liquid Assets within Low Risk -->
+        <div class="asset-type">
+            <h3 class="type-title">{{ _('Liquid Assets') }}</h3>
+            <div class="type-content">
+                <div class="category">
+                    <h4 class="category-title">{{ _('Money market ETFs') }}</h4>
+                    <div class="row" id="low_risk-liquid-money_market_etfs"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container for medium risk assets -->
+    <div id="assets-medium_risk" class="asset-container risk-level">
+        <h2 class="section-title">{{ _('Medium Risk Assets') }}</h2>
+        <!-- Container for Defensive Assets within Medium Risk -->
+        <div class="asset-type">
+            <h3 class="type-title">{{ _('Defensive Assets') }}</h3>
+             <div class="type-content">
+                 <div class="category">
+                    <h4 class="category-title">{{ _('Bank sector') }}</h4>
+                    <div class="row" id="medium_risk-defensive-bank_sector"></div>
+                 </div>
+                 <div class="category">
+                    <h4 class="category-title">{{ _('Defense sector') }}</h4>
+                    <div class="row" id="medium_risk-defensive-defense_stocks"></div>
+                 </div>
+                 <div class="category">
+                    <h4 class="category-title">{{ _('Food sector') }}</h4>
+                    <div class="row" id="medium_risk-defensive-food_sector_stocks"></div>
+                 </div>
+                 <div class="category">
+                    <h4 class="category-title">{{ _('Healthcare sector') }}</h4>
+                    <div class="row" id="medium_risk-defensive-healthcare_stocks"></div>
+                 </div>
+                 <div class="category">
+                    <h4 class="category-title">{{ _('Oil and gas sector') }}</h4>
+                    <div class="row" id="medium_risk-defensive-oil_and_gas_stocks"></div>
+                 </div>
+                 <div class="category">
+                    <h4 class="category-title">{{ _('Mining sector') }}</h4>
+                    <div class="row" id="medium_risk-defensive-mining_stocks"></div>
+                 </div>
+             </div>
+        </div>
+        <!-- Container for Liquid Assets within Medium Risk -->
+        <div class="asset-type">
+            <h3 class="type-title">{{ _('Liquid Assets') }}</h3>
+            <div class="type-content">
+                <div class="category">
+                    <h4 class="category-title">{{ _('Large stable stocks') }}</h4>
+                    <div class="row" id="medium_risk-liquid-large_stable_stocks"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Container for Venture Assets within Medium Risk -->
+        <div class="asset-type">
+            <h3 class="type-title">{{ _('Venture Assets') }}</h3>
+            <div class="type-content">
+                <div class="category">
+                    <h4 class="category-title">{{ _('Innovation focused etfs') }}</h4>
+                    <div class="row" id="medium_risk-venture-innovation_focused_etfs"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container for high risk assets -->
+    <div id="assets-high_risk" class="asset-container risk-level">
+        <h2 class="section-title">{{ _('High Risk Assets') }}</h2>
+        <!-- Container for Speculative Assets within High Risk -->
+        <div class="asset-type">
+            <h3 class="type-title">{{ _('Speculative Assets') }}</h3>
+             <div class="type-content">
+                <div class="category">
+                    <h4 class="category-title">{{ _('Stocks') }}</h4>
+                    <div class="row" id="high_risk-speculative-stocks"></div>
+                </div>
+                <div class="category">
+                    <h4 class="category-title">{{ _('Cryptocurrencies') }}</h4>
+                    <div class="row" id="high_risk-speculative-cryptocurrencies"></div>
+                </div>
+                <div class="category">
+                    <h4 class="category-title">{{ _('Real estate etfs') }}</h4>
+                    <div class="row" id="high_risk-speculative-real_estate_etfs"></div>
+                </div>
+                <div class="category">
+                    <h4 class="category-title">{{ _('Developing markets') }}</h4>
+                    <div class="row" id="high_risk-speculative-developing_markets"></div>
+                </div>
+                <div class="category">
+                    <h4 class="category-title">{{ _('Sport wear') }}</h4>
+                    <div class="row" id="high_risk-speculative-sport_wear"></div>
+                </div>
+             </div>
+        </div>
+        <!-- Container for Venture Assets within High Risk -->
+        <div class="asset-type">
+            <h3 class="type-title">{{ _('Venture Assets') }}</h3>
+            <div class="type-content">
+                <div class="category">
+                    <h4 class="category-title">{{ _('Tech stocks') }}</h4>
+                    <div class="row" id="high_risk-venture-tech_stocks"></div>
+                </div>
+                <div class="category">
+                    <h4 class="category-title">{{ _('Biotechnologies') }}</h4>
+                    <div class="row" id="high_risk-venture-biotechnologies"></div>
+                </div>
+                <div class="category">
+                    <h4 class="category-title">{{ _('Green energy') }}</h4>
+                    <div class="row" id="high_risk-venture-green_energy"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Notification placeholder -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Asset Tooltip -->
+    <div id="asset-tooltip" style="display: none; position: absolute; background-color: #f1f1f1; border: 1px solid black; padding: 10px; border-radius: 5px; z-index: 100;">
+        <!-- Asset details will be generated here -->
+    </div>
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.11.9/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+// Parse the JSON strings provided by Flask into JavaScript objects
+const assetRiskClassification = JSON.parse('{{ asset_risk_classification_json | safe }}');
+const historicalData = JSON.parse('{{ historical_data_json | safe }}');
+
+function populateAssets() {
+    Object.keys(assetRiskClassification).forEach(riskLevel => {
+        Object.keys(assetRiskClassification[riskLevel]).forEach(category => {
+            Object.keys(assetRiskClassification[riskLevel][category]).forEach(type => {
+                // Construct the ID dynamically based on risk level, category, and type
+                let containerId = `${riskLevel}-${category}-${type}`;
+                let container = document.getElementById(containerId);
+                if(container) {
+                    let tickersHtml = '';
+                    assetRiskClassification[riskLevel][category][type].forEach(ticker => {
+                        tickersHtml += `
+                            <div class="col-md-3">
+                                <div class="card asset-card" onclick="copyTicker('${ticker}')">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${ticker}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        });
+                    container.innerHTML = tickersHtml; // Populate the container with tickers
+                }
+            });
+        });
+    });
+    attachHoverEvents();
+}
+
+
+function attachHoverEvents() {
+    document.querySelectorAll('.asset-card').forEach(card => {
+        let hoverTimeout;
+        card.addEventListener('mouseenter', function(event) {
+            const ticker = this.querySelector('.card-title').textContent;
+            hoverTimeout = setTimeout(() => showAssetDetails(ticker, event), 1500); // Wait for 1.5 seconds
+        });
+        card.addEventListener('mouseleave', function() {
+            clearTimeout(hoverTimeout);
+            const tooltip = document.getElementById('asset-tooltip');
+            tooltip.style.display = 'none';
+        });
+    });
+}
+
+
+// Function to copy ticker to clipboard
+function copyTicker(ticker) {
+    navigator.clipboard.writeText(ticker).then(() => {
+        // Create the notification message
+        const notification = document.getElementById('notification');
+        notification.textContent = '{{ _('Ticker') }} ' + ticker + ' {{ _('copied to clipboard!') }}'; // Message
+        notification.className = 'notification show';
+
+        // After 5 seconds, hide the notification
+        setTimeout(() => {
+            notification.className = 'notification';
+        }, 5000);
+    }).catch(err => {
+        // Show error using the same notification system
+        const notification = document.getElementById('notification');
+        notification.textContent = '{{ _('Failed to copy ticker:') }} ' + err; // Error message
+        notification.className = 'notification show';
+
+        // After 5 seconds, hide the notification
+        setTimeout(() => {
+            notification.className = 'notification';
+        }, 5000);
+    });
+}
+
+function updateTrendButtons() {
+    let investmentPeriod = $('#investment_period').val();
+    let trendButtonsHTML = '';
+    let periods = [];
+
+    if (investmentPeriod === 'short-term') {
+        periods = [1, 3, 7]; // Day, three days, week
+    } else if (investmentPeriod === 'middle-term') {
+        periods = [30, 90, 180]; // Month, three months, half a year
+    } else if (investmentPeriod === 'long-term') {
+        periods = [365, 730, 1095]; // Year, two years, three years
+    }
+
+    periods.forEach(period => {
+        let buttonLabel = getButtonLabel(period);
+        trendButtonsHTML += `
+            <button type="button" class="btn btn-info" onclick="analyzeTrend(${period})">${buttonLabel}</button>
+        `;
+    });
+
+    $('#trend-buttons').html(trendButtonsHTML);
+}
+
+function getButtonLabel(period) {
+    switch(period) {
+        case 1: return '{{ _('1-Day Trend') }}';
+        case 3: return '{{ _('3-Days Trend') }}';
+        case 7: return '{{ _('1-Week Trend') }}';
+        case 30: return '{{ _('1-Month Trend') }}';
+        case 90: return '{{ _('3-Months Trend') }}';
+        case 180: return '{{ _('6-Months Trend') }}';
+        case 365: return '{{ _('1-Year Trend') }}';
+        case 730: return '{{ _('2-Years Trend') }}';
+        case 1095: return '{{ _('3-Years Trend') }}';
+        default: return '';
+    }
+}
+
+
+function calculateTrend(tickerData, period) {
+    // Ensure that there is enough data for the given period
+    if (tickerData.length < period + 1) { // +1 to account for the previous day's data
+        return 'insufficient data';
+    }
+
+    // Calculate the trend differently for 1-Day Trend
+    if (period === 1) {
+        const latestPrice = tickerData[tickerData.length - 1]; // Last element in the array
+        const previousPrice = tickerData[tickerData.length - 2]; // Second to last element
+
+        if (latestPrice > previousPrice) {
+            return 'green'; // Price increased from the previous day
+        } else if (latestPrice < previousPrice) {
+            return 'red'; // Price decreased from the previous day
+        } else {
+            return 'stable'; // Price remained the same
+        }
+    } else {
+        // The original calculation for periods greater than 1 day
+        const recentData = tickerData.slice(-period);
+        const latestPrice = recentData[recentData.length - 1];
+        const averagePrice = recentData.reduce((sum, price) => sum + price, 0) / period;
+
+        if (latestPrice > averagePrice) {
+            return 'green'; // Upward trend
+        } else if (latestPrice < averagePrice) {
+            return 'red'; // Downward trend
+        } else {
+            return 'stable'; // Stable trend
+        }
+    }
+}
+
+
+function analyzeTrend(period) {
+    Object.keys(historicalData).forEach(ticker => {
+        const tickerData = historicalData[ticker];
+        const trend = calculateTrend(tickerData, period);
+        const card = $(`.asset-card:contains('${ticker}')`);
+        if (card.length) {
+            if (trend === 'green') {
+                card.css('border', '2px solid green');
+            } else if (trend === 'red') {
+                card.css('border', '2px solid red');
+            } else {
+                card.css('border', '2px solid grey');
+            }
+        }
+    });
+}
+
+
+// Add event listeners to your trend buttons
+document.querySelectorAll('#trend-buttons button').forEach(button => {
+    button.addEventListener('click', function() {
+        const period = parseInt(this.getAttribute('onclick').match(/\d+/)[0]);
+        analyzeTrend(period);
+    });
+});
+
+analyzeTrend(7);
+
+
+function showAssetDetails(ticker, event) {
+    fetch(`/get_asset_data/${ticker}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+            } else {
+                const tooltip = document.getElementById('asset-tooltip');
+                tooltip.innerHTML = ''; // Clear previous content
+
+                // Add new content
+                const title = document.createElement('h4');
+                title.textContent = data.companyName;
+                tooltip.appendChild(title);
+
+                const industry = document.createElement('p');
+                industry.textContent = `{{ _('Industry:') }} ${data.industry || 'N/A'}`;
+                tooltip.appendChild(industry);
+
+                const description = document.createElement('p');
+                description.textContent = `{{ _('Description:') }} ${data.localized_description}`;
+                tooltip.appendChild(description);
+
+                const image = new Image();
+                image.src = data.image.startsWith('Logos/') ? `/static/${data.image}` : data.image;
+                image.alt = `Logo of ${data.companyName}`;
+                image.style.width = '100px';
+                tooltip.appendChild(image);
+
+                // Make tooltip visible to calculate its dimensions
+                tooltip.style.visibility = 'hidden';
+                tooltip.style.display = 'block';
+
+                setTimeout(() => {
+                    // The delay gives the image some time to load before calculating the tooltip's dimensions and setting its position.
+                    const tooltipRect = tooltip.getBoundingClientRect();
+                    const viewportWidth = window.innerWidth;
+                    const viewportHeight = window.innerHeight;
+                    let leftPosition = event.clientX + 15;
+                    let topPosition = event.clientY + 15;
+
+                    // Adjust if tooltip goes beyond the right edge of the viewport
+                    if (leftPosition + tooltipRect.width > viewportWidth) {
+                        leftPosition = viewportWidth - tooltipRect.width - 20; // 20px from the right edge
+                    }
+
+                    // Adjust if tooltip goes beyond the left edge of the viewport
+                    if (leftPosition < 0) {
+                        leftPosition = 20; // 20px from the left edge
+                    }
+
+                    // Adjust if tooltip goes above the top of the viewport
+                    if (topPosition - window.scrollY < tooltipRect.height) {
+                        topPosition = event.clientY + window.scrollY + 20; // Below the cursor
+                    }
+
+                    // Adjust if tooltip goes below the bottom of the viewport
+                    if (topPosition + tooltipRect.height - window.scrollY > viewportHeight) {
+                        topPosition = event.clientY + window.scrollY - tooltipRect.height - 20; // Above the cursor
+                    }
+
+                    // Apply calculated positions
+                    tooltip.style.left = `${leftPosition}px`;
+                    tooltip.style.top = `${topPosition}px`;
+                    tooltip.style.visibility = 'visible';
+                    image.style.display = 'block';
+                }, 500); // Delay in milliseconds
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+
+function formatInputToTwoDecimalPlaces(event) {
+    event.target.value = parseFloat(event.target.value).toFixed(2);
+}
+
+document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('change', formatInputToTwoDecimalPlaces);
+});
+
+
+function enableTickerAutocomplete() {
+    $(".ticker-input").autocomplete({
+        source: function(request, response) {
+            $.getJSON(`/search_assets/${request.term}`, function(data) {
+                response(data);
+            });
+        },
+        minLength: 1, // Start search after one char
+    });
+}
+
+function checkTickerExists(inputElement) {
+    let ticker = inputElement.value.toUpperCase();
+    let errorMessageDiv = inputElement.nextElementSibling;
+
+    fetch(`/check_ticker/${ticker}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                inputElement.style.borderColor = 'green';
+                errorMessageDiv.textContent = '';
+            } else {
+                inputElement.style.borderColor = 'red';
+                errorMessageDiv.textContent = `{{ _('Ticker not exist') }}`;
+            }
+            validateFields();
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+let assetCounter = 5;
+
+$('#add-asset').click(function() {
+    if (assetCounter < 10) {
+        let newInputGroup = $(`
+            <div class="asset-input-group input-group">
+                <input type="text" class="form-control ticker-input ticker-fields-input required-input" placeholder={{ _('Ticker') }} name="asset_tickers[]" required>
+                <div class="ticker-error-message"></div>
+                <input type="number" class="form-control investment-amount-input required-input" placeholder={{ _('Investment Amount') }} name="investment_amounts[]" step="0.01" required>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary remove-asset" type="button">{{ _('Remove') }}</button>
+                </div>
+            </div>
+        `);
+
+        newInputGroup.find('input[name="investment_amounts[]"]').change(formatInputToTwoDecimalPlaces);
+        $('#asset-inputs').append(newInputGroup);
+
+        assetCounter++;
+        if (assetCounter == 10) {
+            $('#add-asset').prop('disabled', true);
+            alert("{{ _('You have reached the maximum number of assets (10).') }}");
+        }
+    }
+    validateFields();
+    updateRemoveButtons();
+    enableTickerAutocomplete();
+    formatInputToUppercase();
+});
+
+$('body').on('click', '.remove-asset', function() {
+    if (assetCounter > 5) {
+        $(this).closest('.asset-input-group').remove();
+        assetCounter--;
+        $('#add-asset').prop('disabled', false);
+    } else {
+        alert("{{ _('You must have at least 5 assets.') }}");
+    }
+    validateFields();
+    updateRemoveButtons();
+});
+
+function updateRemoveButtons() {
+    if (assetCounter <= 5) {
+        $('.remove-asset').prop('disabled', true);
+    } else {
+        $('.remove-asset').prop('disabled', false);
+    }
+}
+
+
+function formatInputToUppercase() {
+    $('.ticker-input').on('input', function() {
+        $(this).val($(this).val().toUpperCase());
+    });
+}
+
+document.getElementById('load-chart').addEventListener('click', function() {
+    const ticker = document.getElementById('asset-search-input').value;
+    const period = document.getElementById('chart-period').value;
+    loadingText = "{{ _("Loading...") }}"
+    errorText = "{{ _("Error while loading chart.") }}"
+
+    if (ticker) {
+        document.getElementById('chart-container').innerHTML = '<div class="loader">' + loadingText + '</div>';
+
+        $.ajax({
+            url: '/get_asset_chart',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ ticker: ticker, period: period }),
+            success: function(response) {
+                document.getElementById('chart-container').innerHTML = '<img src="' + response.chart_url + '" alt="Графік">';
+            },
+            error: function(error) {
+                console.log(error);
+                document.getElementById('chart-container').innerHTML = '<p>' + errorText + '</p>';
+            }
+        });
+    } else {
+        alert('{{ _('Please enter a ticker.') }}');
+    }
+});
+
+
+function validateFields() {
+    let requiredFields = [
+        document.getElementById('initial_investment'),
+        document.getElementById('financial_cushion_percentage'),
+        ...document.querySelectorAll('.ticker-fields-input'),
+        ...document.querySelectorAll('.investment-amount-input')
+    ];
+
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            field.style.borderColor = 'red';
+        } else {
+            field.style.borderColor = '';
+        }
+    });
+}
+
+document.querySelectorAll('.required-input').forEach(input => {
+    input.addEventListener('input', validateFields);
+});
+
+document.addEventListener('DOMContentLoaded', validateFields);
+
+
+$(document).ready(function() {
+    updateRemoveButtons();
+    formatInputToUppercase();
+    validateFields();
+
+    function updateAvailableFunds() {
+        var initialInvestment = parseFloat($('#initial_investment').val()) || 0;
+        var financialCushionPercentage = parseFloat($('#financial_cushion_percentage').val()) || 0;
+        var financialCushion = initialInvestment * (financialCushionPercentage / 100);
+        var availableFunds = initialInvestment - financialCushion;
+        var totalInvestment = 0;
+
+        $('input[name="investment_amounts[]"]').each(function() {
+            var percentage = parseFloat($(this).val()) || 0;
+            var amount = (percentage / 100) * availableFunds;
+            totalInvestment += amount;
+        });
+
+        if (totalInvestment > initialInvestment - financialCushion) {
+            $('#financial_cushion_display').css('color', 'red');
+            $('#analyze-portfolio-btn').prop('disabled', true);
+            alert("{{ _('You have exceeded the available funds!') }}");
+        } else {
+            $('#financial_cushion_display').css('color', 'black');
+            $('#analyze-portfolio-btn').prop('disabled', false);
+        }
+
+        $('#financial_cushion_display').text(financialCushion.toFixed(2));
+        $('#available_funds_display').text((availableFunds - totalInvestment).toFixed(2));
+        $('#total_investment_display').text(totalInvestment.toFixed(2));
+    }
+
+    $('#initial_investment').on('input change', updateAvailableFunds);
+    $(document).on('input change', 'input[name="investment_amounts[]"]', updateAvailableFunds);
+    $('#financial_cushion_percentage').on('input change', function() {
+        var value = parseInt($(this).val());
+        if (value > 90) {
+            $(this).val(90);
+        }
+        updateAvailableFunds();
+    });
+    $('input[name="investment_amounts[]"]').on('input change', function() {
+        var value = parseInt($(this).val());
+        if (value > 100) {
+            $(this).val(100);
+        }
+        updateAvailableFunds();
+    });
+
+    $('#asset-inputs').on('change', '.ticker-input', function() {
+        checkTickerExists(this);
+    });
+
+    $('#asset-inputs').on('input change', '.investment-amount-input', function() {
+        validateFields();
+    });
+
+    $(document).on('input change', 'input[type="number"]', function() {
+        if (parseInt($(this).val(), 10) < 0) {
+            $(this).val(0);
+        }
+    });
+
+    enableTickerAutocomplete();
+    populateAssets()
+    updateTrendButtons();
+    updateAvailableFunds();
+});
+</script>
+</body>
+</html>

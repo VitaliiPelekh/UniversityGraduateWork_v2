@@ -54,7 +54,7 @@ FEATURES_PER_ASSET = 2  # The number of features per asset (e.g., weight and ris
 MIN_LENGTH = 803  # The minimum size of close values lists of the assets
 
 font_path = os.path.join(app.root_path, 'static', 'Fonts', 'DejaVuSans.ttf')
-font_path_bold = os.path.join(app.root_path, 'static', 'fonts', 'DejaVuSans-Bold.ttf')
+font_path_bold = os.path.join(app.root_path, 'static', 'Fonts', 'DejaVuSans-Bold.ttf')
 pdfmetrics.registerFont(TTFont('DejaVuSans', font_path))
 pdfmetrics.registerFont(TTFont('DejaVuSans-Bold', font_path_bold))
 
